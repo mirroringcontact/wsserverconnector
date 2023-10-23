@@ -10,18 +10,17 @@ const secretTokens = new Map();
 
 const app = express();
 app.use(express.static(path.join(__dirname, '/public')));
-app.get('/token', (req, res) => {
-    //http://localhost:8080/token/?token=630722&port=4444  
+app.get('/token', (req, res) => { 
     const token = req.query.token;
     const ip = req.query.port;
-    console.log("Mobile send token: ", token, " ip: ", ip);  
+    //console.log("Mobile send token: ", token, " ip: ", ip);  
     const foundClient = findClientByToken(token); 
 
     if (foundClient) {
         foundClient.send(ip);
-        console.log("Found ws client, redirect to: ", ip);
+        //console.log("Found ws client, redirect to: ", ip);
     } else {
-        console.log("Client ws not found");
+        //console.log("Client ws not found");
     }
     res.send('GET request handled');
   });
@@ -29,21 +28,20 @@ const server = createServer(app);
 const wss = new WebSocket.Server({ server }); 
 
 wss.on('connection', function (ws) { 
-  console.log('client new: ');
+  //console.log('client new: ');
   ws.onmessage = function(event) {
       const token = event.data; 
       if (secretTokens.has(token)) { 
-        console.log('token already is used:', token);
+        //console.log('token already is used:', token);
       } else {
-        console.log('add token', token);
+        //console.log('add token', token);
         secretTokens.set(token, ws); 
       }
   }; 
-  ws.on("close", () => { 
-    console.log("close client, tokens ", secretTokens);
+  ws.on("close", () => {  
     secretTokens.forEach((client, token) => {
       if (client === ws) {
-        console.log("remove Client with token: ", token); 
+        //console.log("remove Client with token: ", token); 
         secretTokens.delete(token);
       }
     });
@@ -52,7 +50,7 @@ wss.on('connection', function (ws) {
 
 var port = 443;
 server.listen(port, function () {
-  console.log('Listening on', port);
+  //console.log('Listening on', port);
 });
 
 function findClientByToken(token) {
