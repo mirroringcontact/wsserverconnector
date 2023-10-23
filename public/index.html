@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,12 +125,16 @@
       correctLevel: QRCode.CorrectLevel.H
     });
  
-    const protocol = window.location.protocol.includes('https') ? 'wss': 'ws'
+    const protocol = window.location.protocol.includes('https') ? 'wss': 'ws';
     const ws = new WebSocket(`${protocol}://${location.host}`);
-
+    ws.onopen = function (event) {
+        console.log('Connected to WebSocket server');  
+        ws.send(codeString);
+    };
     ws.onmessage = function(event) {
-      const data = JSON.parse(event.data);
-      window.location.href = data.message;
+      const data = event.data;
+      console.log('redirect to: ', data);  
+      window.location.href = "http://" + data;
     }; 
   </script>
 </body>
