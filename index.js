@@ -29,6 +29,6 @@ wss.on('connection', function (ws) {
   });
 });
 
-server.listen(5443, function () {
-  console.log('Listening on http://0.0.0.0:8080');
+server.listen(443, function () {
+  // console.log('Listening on 5443');
 });
