@@ -50,7 +50,7 @@ wss.on('connection', function (ws) {
   });
 });
 
-var port = 8080
+var port = 443;
 server.listen(port, function () {
   console.log('Listening on', port);
 });
