@@ -39,7 +39,7 @@ wss.on('connection', function (ws) {
       }
   }; 
   ws.on("close", () => { 
-    console.log("on close");  
+    //console.log("on close");  
     secretTokens.forEach((client, token) => {
       if (client === ws) {
         //console.log("remove Client with token: ", token); 
