@@ -185,10 +185,10 @@
       var urlParams = getURLParameters();
       var iOSIP = urlParams["ip"];
       if (iOSIP !== null && iOSIP !== "") {
+          console.log("ios ip: ", iOSIP);
           var redirectUrl = "http://" + iOSIP;
           redirectUrl += "/webrtc.html";
-          window.location.href = redirectUrl;
-          console.log("ios ip: ", iOSIP);
+          // window.location.href = redirectUrl;
       }
   </script>
 </body>
