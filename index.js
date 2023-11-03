@@ -26,7 +26,7 @@ app.get('/token', (req, res) => {
   });
 const server = createServer(app);
 const wss = new WebSocket.Server({ server }); 
-
+console.log("Run");
 wss.on('connection', function (ws) { 
   //console.log('client new: ');
   ws.onmessage = function(event) {
@@ -38,7 +38,8 @@ wss.on('connection', function (ws) {
         secretTokens.set(token, ws); 
       }
   }; 
-  ws.on("close", () => {  
+  ws.on("close", () => { 
+    console.log("on close");  
     secretTokens.forEach((client, token) => {
       if (client === ws) {
         //console.log("remove Client with token: ", token); 
