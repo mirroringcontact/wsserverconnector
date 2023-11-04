@@ -52,7 +52,6 @@ app.post('/redirect', (req, res) => {
     }
     
     const client = findClientByToken(qrcode);
-    
     if (!client) {
         console.log("client ws not found for code: ", qrcode, " all: ", secretTokens);
         return res.status(401).json({ error: 'Error 5' });
@@ -61,27 +60,6 @@ app.post('/redirect', (req, res) => {
     client.send(redirectUrl);
     console.log("send to client url for stream: ", redirectUrl);
     res.json({ message: 'Ok' });
-//     
-//    if (authToken === 'Bearer cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
-//        
-//        if (requestBody.token) {
-//            
-//            const client = findClientByToken(token);
-//            if (client) {
-//                
-//                client.send(redirectUrl);
-//                console.log("send to client url for stream: ", redirectUrl);
-//                res.json({ message: 'Ok' });
-//            } else {
-//                console.log("client ws not found");
-//                res.status(401).json({ error: 'Error 2' });
-//            }
-//        } else {
-//            res.status(401).json({ error: 'Error 3' });
-//        }
-//    } else {
-//        res.status(401).json({ error: 'Error 4' });
-//    }
 });
 
 const server = createServer(app);
@@ -108,7 +86,7 @@ server.listen(port, function () {
 });
 
 function findClientByToken(text) {
-    secretTokens.forEach((client, token) => {
+    secretTokens.forEach((token, client) => {
         console.log("enumerate: ", token, ", found: ", text);
         if (text === token) {
             return client
