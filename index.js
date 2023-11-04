@@ -54,7 +54,7 @@ app.post('/redirect', (req, res) => {
     const client = findClientByToken(qrcode);
     
     if (!client) {
-        console.log("client ws not found");
+        console.log("client ws not found for code: ", qrcode, " all: ", secretTokens);
         return res.status(401).json({ error: 'Error 5' });
     }
     
