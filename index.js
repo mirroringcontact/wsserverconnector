@@ -28,7 +28,6 @@ const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 console.log("Run");
 wss.on('connection', function (ws, req) {
-    const clientAddress = req.socket.remoteAddress;
     console.log('client new: ', clientAddress, " + ", ws.remoteAddress, " + ", req);
     
     ws.onmessage = function(event) {
@@ -37,17 +36,20 @@ wss.on('connection', function (ws, req) {
             //console.log('token already is used:', token);
         } else {
             //console.log('add token', token);
-            secretTokens.set(token, ws);
+//            const clientAddress = req.socket.remoteAddress;
+            secretTokens.set(ws, token);
         }
     };
     ws.on("close", () => {
         console.log("on close");
-        secretTokens.forEach((client, token) => {
-            if (client === ws) {
-                console.log("remove Client with token: ", token);
-                secretTokens.delete(token);
-            }
-        });
+        secretTokens.delete(ws);
+        console.log("remove Client: ", ws);
+//        secretTokens.forEach((client, token) => {
+//            if (client === ws) {
+//                console.log("remove Client with token: ", token);
+//                secretTokens.delete(token);
+//            }
+//        });
     });
 });
 
