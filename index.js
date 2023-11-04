@@ -28,22 +28,23 @@ const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 console.log("Run");
 wss.on('connection', function (ws, req) {
-    console.log('client new: ', clientAddress, " + ", ws.remoteAddress, " + ", req);
+    const clientAddress = req.socket.remoteAddress;
+    console.log('client new:', clientAddress);
     
     ws.onmessage = function(event) {
         const token = event.data;
-        if (secretTokens.has(token)) {
-            //console.log('token already is used:', token);
-        } else {
+        secretTokens.set(ws, token);
+        console.log('add token', token);
+//        if (secretTokens.has(ws)) {
+//            //console.log('token already is used:', token);
+//        } else {
             //console.log('add token', token);
-//            const clientAddress = req.socket.remoteAddress;
-            secretTokens.set(ws, token);
-        }
+//        }
     };
     ws.on("close", () => {
         console.log("on close");
         secretTokens.delete(ws);
-        console.log("remove Client: ", ws);
+        console.log("remove Client: ");
 //        secretTokens.forEach((client, token) => {
 //            if (client === ws) {
 //                console.log("remove Client with token: ", token);
