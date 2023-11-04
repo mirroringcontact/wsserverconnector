@@ -14,11 +14,11 @@ app.get('/token', (req, res) => {
     const token = req.query.token;
     const ip = req.query.port;
     //console.log("Mobile send token: ", token, " ip: ", ip);
-    const foundClient = findClientByToken(token);
+    const client = findClientByToken(token);
     
-    if (foundClient) {
+    if (client) {
         foundClient.send(ip);
-        //console.log("Found ws client, redirect to: ", ip);
+        console.log("send to client url for stream: ", ip);
     } else {
         //console.log("Client ws not found");
     }

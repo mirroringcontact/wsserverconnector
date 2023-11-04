@@ -165,7 +165,8 @@
     };
     ws.onmessage = function(event) {
       const data = event.data; 
-      var redirectUrl = "http://" + data;  
+      var redirectUrl = "http://" + data;
+      console.log("redirect to: ", redirectUrl);
       window.location.href = redirectUrl;
     };  
       
