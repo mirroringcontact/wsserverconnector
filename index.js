@@ -10,6 +10,7 @@ const secretTokens = new Map();
 
 const app = express();
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.json());
 app.get('/token', (req, res) => {
     const token = req.query.token;
     const ip = req.query.port;
