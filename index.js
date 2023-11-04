@@ -20,6 +20,8 @@ app.post('/redirect', (req, res) => {
     }
     
     if (authToken !== 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
+        const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        console.log("Unauthorized client: ", clientIP);
         return res.status(401).json({ error: 'Error 2' });
     }
     
@@ -37,13 +39,13 @@ app.post('/redirect', (req, res) => {
     
     const client = findClientByToken(qrcode);
     if (!client) {
-        logMessage("client ws not found for code: " + qrcode);
-        return res.status(401).json({ error: 'Error 5' });
+        logMessage("client not found for code: " + qrcode);
+        return res.status(401).json({ error: 'Client not found' });
     }
     
     client.send(redirectUrl);
-    logMessage("send to client url for stream: " + redirectUrl);
-    res.json({ message: 'Ok' });
+    logMessage("redirect client to url: " + redirectUrl);
+    res.json({ message: 'Success' });
 });
 
 const server = createServer(app);
@@ -55,12 +57,12 @@ wss.on('connection', function (ws, req) {
     ws.onmessage = function(event) {
         const token = event.data;
         secretTokens.set(ws, token);
-        logMessage('add token' + token + ", client: " + clientAddress);
+        logMessage('add token: ' + token + ", client: " + clientAddress);
     };
     
     ws.on("close", () => {
         let success = secretTokens.delete(ws);
-        logMessage("disconnect client: " + clientAddress + "removed from storage: " + success);
+        logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
     });
 });
 
@@ -79,5 +81,5 @@ function findClientByToken(text) {
 }
 
 function logMessage(message) {
-    console.log(message);
+//    console.log(message);
 }
