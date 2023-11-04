@@ -20,10 +20,40 @@ app.get('/token', (req, res) => {
     if (client) {
         foundClient.send(ip);
         console.log("send to client url for stream: ", ip);
+        res.send('Ok');
     } else {
         console.log("client ws not found");
+        return res.status(401).json({ error: 'Error 3' });
     }
-    res.send('');
+});
+
+app.post('/redirect', (req, res) => {
+    const authToken = req.headers.authorization;
+    
+    if (!authToken) {
+        return res.status(401).json({ error: 'Error 1' });
+    }
+    
+    if (token === 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
+        const requestBody = req.body;
+        if (requestBody.token) {
+            const token = requestBody.token;
+            const client = findClientByToken(token);
+            if (client) {
+                const redirectUrl = requestBody.port;
+                client.send(redirectUrl);
+                console.log("send to client url for stream: ", redirectUrl);
+                res.json({ message: 'Ok' });
+            } else {
+                console.log("client ws not found");
+                res.status(401).json({ error: 'Error 2' });
+            }
+        } else {
+            res.status(401).json({ error: 'Error 3' });
+        }
+    } else {
+        res.status(401).json({ error: 'Error 4' });
+    }
 });
 
 const server = createServer(app);
