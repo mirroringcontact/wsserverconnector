@@ -37,12 +37,12 @@ app.post('/redirect', (req, res) => {
     
     const client = findClientByToken(qrcode);
     if (!client) {
-        logMessage("client ws not found for code: ", qrcode);
+        logMessage("client ws not found for code: " + qrcode);
         return res.status(401).json({ error: 'Error 5' });
     }
     
     client.send(redirectUrl);
-    logMessage("send to client url for stream: ", redirectUrl);
+    logMessage("send to client url for stream: " + redirectUrl);
     res.json({ message: 'Ok' });
 });
 
@@ -50,17 +50,17 @@ const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 wss.on('connection', function (ws, req) {
     const clientAddress = req.socket.remoteAddress;
-    logMessage('client new:', clientAddress);
+    logMessage('client new: ' + clientAddress);
     
     ws.onmessage = function(event) {
         const token = event.data;
         secretTokens.set(ws, token);
-        logMessage('add token', token, ", client: ", clientAddress);
+        logMessage('add token' + token + ", client: " + clientAddress);
     };
     
     ws.on("close", () => {
         let success = secretTokens.delete(ws);
-        logMessage("disconnect client: ", clientAddress, "removed from storage: ", success);
+        logMessage("disconnect client: " + clientAddress + "removed from storage: " + success);
     });
 });
 
