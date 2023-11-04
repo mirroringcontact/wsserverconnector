@@ -109,6 +109,7 @@ server.listen(port, function () {
 
 function findClientByToken(text) {
     secretTokens.forEach((client, token) => {
+        console.log("enumerate: ", token, ", found: ", text);
         if (text === token) {
             return client
         }
