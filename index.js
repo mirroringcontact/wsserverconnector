@@ -42,9 +42,8 @@ wss.on('connection', function (ws, req) {
 //        }
     };
     ws.on("close", () => {
-        console.log("on close");
-        secretTokens.delete(ws);
-        console.log("remove Client: ");
+        let success = secretTokens.delete(ws);
+        console.log("disconnect client, removed from storage: ", success);
 //        secretTokens.forEach((client, token) => {
 //            if (client === ws) {
 //                console.log("remove Client with token: ", token);
