@@ -34,27 +34,54 @@ app.post('/redirect', (req, res) => {
     if (!authToken) {
         return res.status(401).json({ error: 'Error 1' });
     }
-    console.log("auth: ", authToken, "body: ", req.body);
-    if (authToken === 'Bearer cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
-        const requestBody = req.body;
-        if (requestBody.token) {
-            const token = requestBody.token;
-            const client = findClientByToken(token);
-            if (client) {
-                const redirectUrl = requestBody.url;
-                client.send(redirectUrl);
-                console.log("send to client url for stream: ", redirectUrl);
-                res.json({ message: 'Ok' });
-            } else {
-                console.log("client ws not found");
-                res.status(401).json({ error: 'Error 2' });
-            }
-        } else {
-            res.status(401).json({ error: 'Error 3' });
-        }
-    } else {
-        res.status(401).json({ error: 'Error 4' });
+    
+    if (authToken !== 'Bearer cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
+        return res.status(401).json({ error: 'Error 2' });
     }
+    
+    const requestBody = req.body;
+    
+    const qrcode = requestBody.qrcode;
+    if (!qrcode) {
+        return res.status(401).json({ error: 'Error 3' });
+    }
+    
+    const redirectUrl = requestBody.url;
+    if (!redirectUrl) {
+        return res.status(401).json({ error: 'Error 4' });
+    }
+    
+    const client = findClientByToken(qrcode);
+    
+    if (!client) {
+        console.log("client ws not found");
+        return res.status(401).json({ error: 'Error 5' });
+    }
+    
+    client.send(redirectUrl);
+    console.log("send to client url for stream: ", redirectUrl);
+    res.json({ message: 'Ok' });
+//     
+//    if (authToken === 'Bearer cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
+//        
+//        if (requestBody.token) {
+//            
+//            const client = findClientByToken(token);
+//            if (client) {
+//                
+//                client.send(redirectUrl);
+//                console.log("send to client url for stream: ", redirectUrl);
+//                res.json({ message: 'Ok' });
+//            } else {
+//                console.log("client ws not found");
+//                res.status(401).json({ error: 'Error 2' });
+//            }
+//        } else {
+//            res.status(401).json({ error: 'Error 3' });
+//        }
+//    } else {
+//        res.status(401).json({ error: 'Error 4' });
+//    }
 });
 
 const server = createServer(app);
