@@ -29,7 +29,7 @@ const wss = new WebSocket.Server({ server });
 console.log("Run");
 wss.on('connection', function (ws, req) {
     const clientAddress = req.socket.remoteAddress;
-    console.log('client new: ${clientAddress}');
+    console.log('client new: ${clientAddress} ', ws.remoteAddress);
     
     ws.onmessage = function(event) {
         const token = event.data;
