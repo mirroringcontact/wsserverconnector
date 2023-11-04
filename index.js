@@ -33,14 +33,14 @@ app.post('/redirect', (req, res) => {
     if (!authToken) {
         return res.status(401).json({ error: 'Error 1' });
     }
-    
+    console.log("auth: ", authToken, "qr: ", req.body.token, "redirect to: ", req.body.url);
     if (authToken === 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
         const requestBody = req.body;
         if (requestBody.token) {
             const token = requestBody.token;
             const client = findClientByToken(token);
             if (client) {
-                const redirectUrl = requestBody.port;
+                const redirectUrl = requestBody.url;
                 client.send(redirectUrl);
                 console.log("send to client url for stream: ", redirectUrl);
                 res.json({ message: 'Ok' });
