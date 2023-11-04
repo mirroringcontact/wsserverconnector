@@ -53,7 +53,7 @@ app.post('/redirect', (req, res) => {
     
     const client = findClientByToken(qrcode);
     if (!client) {
-        console.log("client ws not found for code: ", qrcode, " all: ", secretTokens);
+        console.log("client ws not found for code: ", qrcode);
         return res.status(401).json({ error: 'Error 5' });
     }
     
@@ -86,12 +86,20 @@ server.listen(port, function () {
 });
 
 function findClientByToken(text) {
-    secretTokens.forEach((token, client) => {
+//    secretTokens.forEach((token, client) => {
+//        console.log("enumerate: ", token, ", found: ", text);
+//        if (text === token) {
+//            return client
+//        }
+//    });
+    for (const [client, token] of secretTokens.entries()) {
         console.log("enumerate: ", token, ", found: ", text);
         if (text === token) {
-            return client
+            return client;
         }
-    });
+    }
     return null;
+    
+    
 }
 
