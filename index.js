@@ -11,22 +11,6 @@ const secretTokens = new Map();
 const app = express();
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.json());
-app.get('/token', (req, res) => {
-    const token = req.query.token;
-    const ip = req.query.port;
-    const clientIP = req.ip;
-    console.log("receive token: ", token, ", from client: ", clientIP, ", redirect to: ", ip);
-    const client = findClientByToken(token);
-    
-    if (client) {
-        foundClient.send(ip);
-        console.log("send to client url for stream: ", ip);
-        res.send('Ok');
-    } else {
-        console.log("client ws not found");
-        return res.status(401).json({ error: 'Error 3' });
-    }
-});
 
 app.post('/redirect', (req, res) => {
     const authToken = req.headers.authorization;
@@ -35,7 +19,7 @@ app.post('/redirect', (req, res) => {
         return res.status(401).json({ error: 'Error 1' });
     }
     
-    if (authToken !== 'Bearer cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
+    if (authToken !== 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
         return res.status(401).json({ error: 'Error 2' });
     }
     
@@ -53,12 +37,12 @@ app.post('/redirect', (req, res) => {
     
     const client = findClientByToken(qrcode);
     if (!client) {
-        console.log("client ws not found for code: ", qrcode);
+        logMessage("client ws not found for code: ", qrcode);
         return res.status(401).json({ error: 'Error 5' });
     }
     
     client.send(redirectUrl);
-    console.log("send to client url for stream: ", redirectUrl);
+    logMessage("send to client url for stream: ", redirectUrl);
     res.json({ message: 'Ok' });
 });
 
@@ -66,40 +50,34 @@ const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 wss.on('connection', function (ws, req) {
     const clientAddress = req.socket.remoteAddress;
-    console.log('client new:', clientAddress);
+    logMessage('client new:', clientAddress);
     
     ws.onmessage = function(event) {
         const token = event.data;
         secretTokens.set(ws, token);
-        console.log('add token', token, ", client: ", clientAddress);
+        logMessage('add token', token, ", client: ", clientAddress);
     };
     
     ws.on("close", () => {
         let success = secretTokens.delete(ws);
-        console.log("disconnect client: ", clientAddress, "removed from storage: ", success);
+        logMessage("disconnect client: ", clientAddress, "removed from storage: ", success);
     });
 });
 
 var port = 443;
 server.listen(port, function () {
-    console.log("Run");
+    logMessage("Run");
 });
 
 function findClientByToken(text) {
-//    secretTokens.forEach((token, client) => {
-//        console.log("enumerate: ", token, ", found: ", text);
-//        if (text === token) {
-//            return client
-//        }
-//    });
     for (const [client, token] of secretTokens.entries()) {
-        console.log("enumerate: ", token, ", found: ", text);
         if (text === token) {
             return client;
         }
     }
     return null;
-    
-    
 }
 
+function logMessage(message) {
+    console.log(message);
+}
