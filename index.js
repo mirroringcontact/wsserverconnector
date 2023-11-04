@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.get('/token', (req, res) => {
     const token = req.query.token;
     const ip = req.query.port;
-    //console.log("Mobile send token: ", token, " ip: ", ip);
+    console.log("Mobile send token: ", token, " ip: ", ip);
     const client = findClientByToken(token);
     
     if (client) {
