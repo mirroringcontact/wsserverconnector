@@ -33,7 +33,7 @@ app.post('/redirect', (req, res) => {
     if (!authToken) {
         return res.status(401).json({ error: 'Error 1' });
     }
-    console.log("auth: ", authToken, "qr: ", req.body.token, "redirect to: ", req.body.url);
+    console.log("auth: ", authToken, "body: ", req.body);
     if (authToken === 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
         const requestBody = req.body;
         if (requestBody.token) {
