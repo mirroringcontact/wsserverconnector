@@ -158,7 +158,7 @@
     });
  
     const protocol = window.location.protocol.includes('https') ? 'wss': 'ws';
-    console.log('connect to: ${protocol}://${location.host}');
+    console.log('connect to: ', protocol, " ", location.host);
     const ws = new WebSocket(`${protocol}://${location.host}`);
     ws.onopen = function (event) {  
         ws.send(codeString);
