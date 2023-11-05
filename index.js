@@ -41,10 +41,19 @@ app.post('/redirect', (req, res) => {
         return res.status(401).json({ error: 'Client not found' });
     }
     
-    client.send(redirectUrl);
+    const needToRedirect = requestBody.redirect; //  true / false
+    if (!needToRedirect) {
+        return res.status(401).json({ error: 'Error 5' });
+    }
+    
+    if (needToRedirect) {
+        client.send(redirectUrl);
+    }
+    
     logMessage("redirect client to url: " + redirectUrl);
     res.json({ message: 'Success' });
 });
+
 
 const server = createServer(app);
 const wss = new WebSocket.Server({ server });
