@@ -46,7 +46,7 @@ app.post('/redirect', (req, res) => {
         return res.status(401).json({ error: 'Error 5' });
     }
     
-    if (needToRedirect) {
+    if (needToRedirect === "true") {
         client.send(redirectUrl);
     }
     
@@ -75,7 +75,7 @@ wss.on('connection', function (ws, req) {
 
 var port = 443;
 server.listen(port, function () {
-    logMessage("Run");
+    console.log("Run");
 });
 
 function findClientByToken(text) {
