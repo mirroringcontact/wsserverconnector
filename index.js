@@ -35,24 +35,16 @@ app.post('/redirect', (req, res) => {
         logMessage("client not found for code: " + qrcode);
         return res.status(401).json({ error: 'Client not found' });
     }
-    
-    const needToRedirect = requestBody.redirect; //  true / false
-    if (!needToRedirect) {
-        return res.status(401).json({ error: 'Error 5' });
-    }
-    
-    if (needToRedirect === "true") {
-        
-        const redirectUrl = requestBody.url;
-        if (!redirectUrl) {
-            return res.status(401).json({ error: 'Error 4' });
-        }
-        
+     
+    const redirectUrl = requestBody.url;
+    if (redirectUrl) {
+        logMessage("redirect client to url: " + redirectUrl);
         client.send(redirectUrl);
+        res.json({ message: 'Success, redirected' });
+    } else {
+        res.json({ message: 'Success' });
     }
-    
-    logMessage("redirect client to url: " + redirectUrl);
-    res.json({ message: 'Success' });
+     
 });
 
 
