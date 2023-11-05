@@ -30,11 +30,6 @@ app.post('/redirect', (req, res) => {
         return res.status(401).json({ error: 'Error 3' });
     }
     
-    const redirectUrl = requestBody.url;
-    if (!redirectUrl) {
-        return res.status(401).json({ error: 'Error 4' });
-    }
-    
     const client = findClientByToken(qrcode);
     if (!client) {
         logMessage("client not found for code: " + qrcode);
@@ -47,6 +42,12 @@ app.post('/redirect', (req, res) => {
     }
     
     if (needToRedirect === "true") {
+        
+        const redirectUrl = requestBody.url;
+        if (!redirectUrl) {
+            return res.status(401).json({ error: 'Error 4' });
+        }
+        
         client.send(redirectUrl);
     }
     
