@@ -7,6 +7,7 @@ const { createServer } = require('http');
 
 const WebSocket = require('ws');
 const secretTokens = new Map();
+//const unauthorizedClients = new Set();
 
 const app = express();
 app.use(express.static(path.join(__dirname, '/public')));
@@ -15,14 +16,11 @@ app.use(express.json());
 app.post('/redirect', (req, res) => {
     const authToken = req.headers.authorization;
     
-    if (!authToken) {
-        return res.status(401).json({ error: 'Error 1' });
-    }
-    
-    if (authToken !== 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
+    if (!authToken || authToken !== 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
         const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//        unauthorizedClients.add(clientIP);
         console.log("Unauthorized client: ", clientIP);
-        return res.status(401).json({ error: 'Error 2' });
+        return res.status(401).json({ error: 'unauthorized' });
     }
     
     const requestBody = req.body;
