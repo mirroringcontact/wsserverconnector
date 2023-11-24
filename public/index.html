@@ -28,24 +28,18 @@
     body {
       background: #fff;
       font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      justify-content: center;
     }
 
     .logo {
       font-size: 30px;
       font-style: normal;
       font-weight: 500;
-      line-height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      line-height: 48px;
     }
 
     .logo img {
-      margin-right: 20px;
+      vertical-align: middle;
+      margin: -4px 20px 0 0;
     }
 
     .description {
@@ -57,36 +51,23 @@
       text-align: center;
     }
 
-    .setup {
-      display: flex;
-      gap: 100px;
-      justify-content: center;
-      align-items: stretch;
-      padding: 40px 0;
-    }
-
     .setup-code,
     .setup-qr {
       width: 423px;
-      flex: none;
       font-size: 24px;
       font-style: normal;
       font-weight: 500;
       line-height: 125%;
       color: #24282c;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
       padding: 40px 0 110px;
+    }
+
+    .setup-code {
+      text-align: left;
     }
 
     .setup-separator {
       width: 34px;
-      flex: none;
-      display: flex;
-      align-items: center;
-      position: relative;
     }
 
     .setup-separator:after {
@@ -97,19 +78,17 @@
       left: 50%;
       background: rgba(36, 40, 44, 0.2);
       transform: translate(50%, 0);
+      top: 0;
     }
 
-    .setup-separator span {
+    .setup-separator div {
       font-size: 24px;
       font-style: normal;
       font-weight: 500;
-      line-height: 125%;
       color: #24282C;
       background: #fff;
-      height: 70px;
+      line-height: 70px;
       width: 100%;
-      display: flex;
-      align-items: center;
       position: relative;
       z-index: 2;
     }
@@ -121,29 +100,78 @@
       line-height: 250px;
       color: #24282C;
       padding-top: 10px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    #content {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      border: 0;
+    }
+
+    #content tr td {
+      height: 100%;
+      width: 100%;
+      align-items: center;
+      text-align: center;
+    }
+
+    .table {
+      width: 880px;
+      border-collapse: collapse;
+      border: 0;
+      margin: 40px auto;
+    }
+
+    .table tr td {
+      padding: 0 50px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .td-center {
+      position: relative;
+    }
+
+    #qrcode {
+      margin: 40px auto 0 auto;
+      width: 250px;
     }
     
   </style>
 </head>
-
 <body>
-  <div id="content">
-    <div class="logo"><img src='icon.svg' width="48" height="48" alt="Screen mirroring" /> Screen mirroring</div>
-    <div class="description">Two ways to start mirroring</div>
-    <div class="setup">
-      <div class="setup-code">
-        In the Web mirroring mode, enter the code you see below:
-        <span id="code"></span>
-      </div>
-      <div class="setup-separator">
-        <span>OR</span>
-      </div>
-      <div class="setup-qr">
-        Scan this QR code:
-        <span id="qrcode"></span>
-      </div>
-    </div>
-  </div>
+  <table id="content">
+    <tr>
+      <td>
+        <div class="logo"><img src='icon.svg' width="48" height="48" alt="Screen mirroring" /> Screen mirroring</div>
+        <div class="description">Two ways to start mirroring</div>
+        <table class="table">
+          <tr>
+            <td width="50%">
+              <div class="setup-code">
+                In the Web mirroring mode, enter the code you see below:
+                <div id="code"></div>
+              </div>
+            </td>
+            <td width="0" class="td-center">
+              <div class="setup-separator">
+                <div>OR</div>
+              </div>
+            </td>
+            <td width="50%">
+              <div class="setup-qr">
+                Scan this QR code:
+                <div id="qrcode"></div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
   <script>
     const codeString = Math.floor(100000 + Math.random() * 900000).toString();
     document.getElementById('code').innerHTML = codeString;
