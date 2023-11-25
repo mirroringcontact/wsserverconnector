@@ -4,149 +4,149 @@
 
 <head>
   <title>Screen Mirroring</title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="description"
-    content="Mirror your phone screen to any TV in realtime.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="qrcode.min.js" type="text/javascript"></script> 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      height: 100%;
-    }
-
-    body {
-      background: #fff;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .logo {
-      font-size: 30px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 48px;
-    }
-
-    .logo img {
-      vertical-align: middle;
-      margin: -4px 20px 0 0;
-    }
-
-    .description {
-      font-size: 48px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 100%;
-      padding: 30px 0 0;
-      text-align: center;
-    }
-
-    .setup-code,
-    .setup-qr {
-      width: 423px;
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 125%;
-      color: #24282c;
-      padding: 40px 0 110px;
-    }
-
-    .setup-code {
-      text-align: left;
-    }
-
-    .setup-separator {
-      width: 34px;
-    }
-
-    .setup-separator:after {
-      content: '';
-      height: 100%;
-      width: 2px;
-      position: absolute;
-      left: 50%;
-      background: rgba(36, 40, 44, 0.2);
-      transform: translate(50%, 0);
-      top: 0;
-    }
-
-    .setup-separator div {
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 500;
-      color: #24282C;
-      background: #fff;
-      line-height: 70px;
-      width: 100%;
-      position: relative;
-      z-index: 2;
-    }
-
-    #code {
-      font-size: 100px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 250px;
-      color: #24282C;
-      padding-top: 10px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    #content {
-      width: 100%;
-      height: 100%;
-      border-collapse: collapse;
-      border: 0;
-    }
-
-    #content tr td {
-      height: 100%;
-      width: 100%;
-      align-items: center;
-      text-align: center;
-    }
-
-    .table {
-      width: 880px;
-      border-collapse: collapse;
-      border: 0;
-      margin: 40px auto;
-    }
-
-    .table tr td {
-      padding: 0 50px;
-      align-items: center;
-      text-align: center;
-    }
-
-    .td-center {
-      position: relative;
-    }
-
-    #qrcode {
-      margin: 40px auto 0 auto;
-      width: 250px;
-    }
-    
-  </style>
+//  <meta charset="utf-8" />
+//  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+//  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+//  <meta name="description"
+//    content="Mirror your phone screen to any TV in realtime.">
+//  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+//  <link rel="preconnect" href="https://fonts.googleapis.com" />
+//  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+//  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+//  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+//  <script src="qrcode.min.js" type="text/javascript"></script> 
+//  <style>
+//    * {
+//      margin: 0;
+//      padding: 0;
+//    }
+//
+//    html, body {
+//      height: 100%;
+//    }
+//
+//    body {
+//      background: #fff;
+//      font-family: 'Inter', sans-serif;
+//    }
+//
+//    .logo {
+//      font-size: 30px;
+//      font-style: normal;
+//      font-weight: 500;
+//      line-height: 48px;
+//    }
+//
+//    .logo img {
+//      vertical-align: middle;
+//      margin: -4px 20px 0 0;
+//    }
+//
+//    .description {
+//      font-size: 48px;
+//      font-style: normal;
+//      font-weight: 700;
+//      line-height: 100%;
+//      padding: 30px 0 0;
+//      text-align: center;
+//    }
+//
+//    .setup-code,
+//    .setup-qr {
+//      width: 423px;
+//      font-size: 24px;
+//      font-style: normal;
+//      font-weight: 500;
+//      line-height: 125%;
+//      color: #24282c;
+//      padding: 40px 0 110px;
+//    }
+//
+//    .setup-code {
+//      text-align: left;
+//    }
+//
+//    .setup-separator {
+//      width: 34px;
+//    }
+//
+//    .setup-separator:after {
+//      content: '';
+//      height: 100%;
+//      width: 2px;
+//      position: absolute;
+//      left: 50%;
+//      background: rgba(36, 40, 44, 0.2);
+//      transform: translate(50%, 0);
+//      top: 0;
+//    }
+//
+//    .setup-separator div {
+//      font-size: 24px;
+//      font-style: normal;
+//      font-weight: 500;
+//      color: #24282C;
+//      background: #fff;
+//      line-height: 70px;
+//      width: 100%;
+//      position: relative;
+//      z-index: 2;
+//    }
+//
+//    #code {
+//      font-size: 100px;
+//      font-style: normal;
+//      font-weight: 400;
+//      line-height: 250px;
+//      color: #24282C;
+//      padding-top: 10px;
+//      margin: 0 auto;
+//      text-align: center;
+//    }
+//
+//    #content {
+//      width: 100%;
+//      height: 100%;
+//      border-collapse: collapse;
+//      border: 0;
+//    }
+//
+//    #content tr td {
+//      height: 100%;
+//      width: 100%;
+//      align-items: center;
+//      text-align: center;
+//    }
+//
+//    .table {
+//      width: 880px;
+//      border-collapse: collapse;
+//      border: 0;
+//      margin: 40px auto;
+//    }
+//
+//    .table tr td {
+//      padding: 0 50px;
+//      align-items: center;
+//      text-align: center;
+//    }
+//
+//    .td-center {
+//      position: relative;
+//    }
+//
+//    #qrcode {
+//      margin: 40px auto 0 auto;
+//      width: 250px;
+//    }
+//    
+//  </style>
 </head>
 <body>
   <table id="content">
     <tr>
       <td>
-        <div class="logo"><img src='icon.svg' width="48" height="48" alt="Screen mirroring" /> Screen mirroring</div>
+//        <div class="logo"><img src='icon.svg' width="48" height="48" alt="Screen mirroring" /> Screen mirroring</div>
         <div class="description">Two ways to start mirroring</div>
         <table class="table">
           <tr>
@@ -175,7 +175,7 @@
   <script>
     const codeString = Math.floor(100000 + Math.random() * 900000).toString();
     document.getElementById('code').innerHTML = codeString;
-    document.getElementById('qrcode').innerHTML = "";
+//    document.getElementById('qrcode').innerHTML = "";
 //    var qrcode = new QRCode('qrcode', {
 //      text: codeString,
 //      width: 250,
