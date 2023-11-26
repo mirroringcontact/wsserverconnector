@@ -4,27 +4,16 @@
 <html lang="en">
 
 <head>
-  <title>Screen Mirroring Z</title>
+  <title>Screen Mirroring</title>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="description"
-    content="Mirror your phone screen to any TV in realtime.">
+  <meta name="description" content="Screen Mirror">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33692996-26"></script>
-  <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-33692996-26');
-  </script>
 
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="qrcode.min.js" type="text/javascript"></script>
-    <script src="/socket.io/socket.io.js"></script>
+  <script src="socket.io.js"></script>
   <style>
     html {
       height: 100%;
@@ -104,7 +93,7 @@
 <body>
   <div id="content">
     <img src='icon150.png' width="75" height="75" class='center'></img>
-    <h1>Screen Mirroring Z</h1>
+    <h1>Screen Mirroring</h1>
     <!-- <h2>Mirror your iPhone, iPad or Android phone screen to any TV in realtime.</h2> -->
     <p style="font-size: 16px;margin-top: 25px;">
       - Enter the code below into the Screen Mirroring App to start mirroring.
@@ -138,10 +127,10 @@
       correctLevel: QRCode.CorrectLevel.H
     });
 
-    // var socket = io();
-    // socket.on(codeString, function(data) {
-    //   window.location.href = data.message;
-    // });
+    var socket = io();
+    socket.on(codeString, function(data) {
+      window.location.href = data.message;
+    });
   </script>
 </body>
 
