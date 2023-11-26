@@ -1,63 +1,85 @@
-// const http = require('http');
-// const socketIo = require('socket.io');
-// const fs = require('fs');
-// const path = require('path');
 
-// const secretTokens = new Map();
+'use strict';
 
-// // Создание HTTP сервера
-// const server = http.createServer((req, res) => {
-//     // Простой обработчик запросов для сервера
-//     if (req.method === 'GET' && req.url === '/') {
-//         fs.readFile(path.join(__dirname, '/public/index.html'), (err, data) => {
-//             if (err) {
-//                 res.writeHead(404);
-//                 res.end('Error: File Not Found');
-//             } else {
-//                 res.writeHead(200, { 'Content-Type': 'text/html' });
-//                 res.end(data);
-//             }
-//         });
-//     }
-// });
+const express = require('express');
+const path = require('path');
+const { createServer } = require('http');
 
-// // Подключение Socket.IO к серверу
-// const io = socketIo(server);
+const WebSocket = require('ws');
+const secretTokens = new Map();
+//const unauthorizedClients = new Set();
 
-// io.on('connection', (socket) => {
-//     console.log('Новое подключение: ' + socket.id);
+const app = express();
+app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.json());
 
-//     socket.on('register', (codeString) => {
-//         secretTokens.set(codeString, socket.id);
-//         console.log('Код зарегистрирован: ' + codeString);
-//     });
+app.post('/redirect', (req, res) => {
+    const authToken = req.headers.authorization;
+    
+    if (!authToken || authToken !== 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
+        const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//        unauthorizedClients.add(clientIP);
+        console.log("Unauthorized client: ", clientIP);
+        return res.status(401).json({ error: 'unauthorized' });
+    }
+    
+    const requestBody = req.body;
+    
+    const qrcode = requestBody.qrcode;
+    if (!qrcode) {
+        return res.status(401).json({ error: 'Error 3' });
+    }
+    
+    const client = findClientByToken(qrcode);
+    if (!client) {
+        logMessage("client not found for code: " + qrcode);
+        return res.status(401).json({ error: 'Client not found' });
+    }
+     
+    const redirectUrl = requestBody.url;
+    if (redirectUrl) {
+        logMessage("redirect client to url: " + redirectUrl);
+        client.send(redirectUrl);
+        res.json({ message: 'Success, redirected' });
+    } else {
+        res.json({ message: 'Success' });
+    }
+     
+});
 
-//     // Здесь можно добавить дополнительную логику для обработки запросов от клиента
-// });
 
-// // Обработка HTTP запросов для перенаправления
-// server.on('request', (req, res) => {
-//     if (req.method === 'POST' && req.url === '/redirect') {
-//         let body = '';
-//         req.on('data', chunk => {
-//             body += chunk.toString();
-//         });
-//         req.on('end', () => {
-//             const data = JSON.parse(body);
-//             const clientSocketId = secretTokens.get(data.qrcode);
-//             if (clientSocketId) {
-//                 io.to(clientSocketId).emit(data.qrcode, { message: data.url });
-//                 res.writeHead(200, { 'Content-Type': 'application/json' });
-//                 res.end(JSON.stringify({ message: 'Success, redirected' }));
-//             } else {
-//                 res.writeHead(404);
-//                 res.end('Client not found');
-//             }
-//         });
-//     }
-// });
+const server = createServer(app);
+const wss = new WebSocket.Server({ server });
+wss.on('connection', function (ws, req) {
+    const clientAddress = req.socket.remoteAddress;
+    logMessage('client new: ' + clientAddress);
+    
+    ws.onmessage = function(event) {
+        const token = event.data;
+        secretTokens.set(ws, token);
+        logMessage('add token: ' + token + ", client: " + clientAddress);
+    };
+    
+    ws.on("close", () => {
+        let success = secretTokens.delete(ws);
+        logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
+    });
+});
 
-// const port = 443;
-// server.listen(port, () => {
-//     console.log(`Сервер запущен на порту ${port}`);
-// });
+var port = 443;
+server.listen(port, function () {
+    console.log("Run");
+});
+
+function findClientByToken(text) {
+    for (const [client, token] of secretTokens.entries()) {
+        if (text === token) {
+            return client;
+        }
+    }
+    return null;
+}
+
+function logMessage(message) {
+//    console.log(message);
+}
