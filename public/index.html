@@ -200,10 +200,14 @@
 //            };
             
             var socket = io();
+            socket.on("connect", () => {
+                console.log("on connect: ", socket.id); // x8WIv7-mJelg7on_ALbx
+            });
             socket.on(codeString, function(data) {
                 console.log("on codestring: ", data);
                 window.location.href = data.message;
             });
+ 
         </script>
     </body>
     
