@@ -66,12 +66,12 @@ const server = createServer(app);
 var io = require('socket.io')(server);
 io.sockets.on("connection", function(socket) {
     logMessage('>>> Новое подключение: ' + socket.id);
+    io.emit('hello', 'Hola soy el servidor'.toString());
 })
 
 io.sockets.on("hello", function(socket) {
     logMessage('>>> hello: ' + socket.id);
-})
-
+}) 
 var port = 443;
 server.listen(port, function () {
     console.log("Run");
