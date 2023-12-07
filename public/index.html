@@ -207,6 +207,9 @@
                 console.log("on codestring: ", data);
                 window.location.href = data.message;
             });
+            socket.on("hello", (arg1) => {
+              console.log("arg1: ", arg1);  
+            });
  
         </script>
     </body>
