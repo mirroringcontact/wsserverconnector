@@ -1,9 +1,16 @@
 
 'use strict';
 
+
 const express = require('express');
 const path = require('path');
 const { createServer } = require('http');
+ 
+const io = require('socket.io');
+io.on('connection', (socket) => {
+    console.log('Новое подключение: ' + socket.id);
+});
+
 
 const WebSocket = require('ws');
 const secretTokens = new Map();
