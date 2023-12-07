@@ -45,16 +45,6 @@ app.post('/redirect', (req, res) => {
      
 });
 
-
-const io = require('socket.io')(app);
-//io.on('connection', (socket) => {
-//   console.log('Новое подключение: ' + socket.id);
-//});
-
-io.sockets.on("connection", function(socket) {
-    console.log('Новое подключение: ' + socket.id);
-})
-
 const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 wss.on('connection', function (ws, req) {
@@ -72,6 +62,15 @@ wss.on('connection', function (ws, req) {
         logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
     });
 });
+ 
+//const io = require('socket.io')(app);
+//io.on('connection', (socket) => {
+//   console.log('Новое подключение: ' + socket.id);
+//});
+var io = require('socket.io').listen(server);
+io.sockets.on("connection", function(socket) {
+    console.log('Новое подключение: ' + socket.id);
+})
 
 var port = 443;
 server.listen(port, function () {
