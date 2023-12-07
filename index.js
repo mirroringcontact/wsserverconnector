@@ -62,14 +62,14 @@ const server = createServer(app);
 //        logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
 //    });
 //});
- 
-//const io = require('socket.io')(app);
-//io.on('connection', (socket) => {
-//   console.log('Новое подключение: ' + socket.id);
-//});
+  
 var io = require('socket.io')(server);
 io.sockets.on("connection", function(socket) {
-    console.log('Новое подключение: ' + socket.id);
+    logMessage('>>> Новое подключение: ' + socket.id);
+})
+
+io.sockets.on("hello", function(socket) {
+    logMessage('>>> hello: ' + socket.id);
 })
 
 var port = 443;

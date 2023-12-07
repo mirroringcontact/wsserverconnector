@@ -202,7 +202,7 @@
             var socket = io();
             socket.on(codeString, function(data) {
                 console.log("on codestring: ", data);
-                // window.location.href = data.message;
+                window.location.href = data.message;
             });
         </script>
     </body>
