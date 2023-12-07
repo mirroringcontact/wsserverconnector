@@ -188,16 +188,16 @@
             
             const protocol = window.location.protocol.includes('https') ? 'wss': 'ws';
             console.log('connect to: ', protocol, " ", location.host);
-            const ws = new WebSocket(`${protocol}://${location.host}`);
-            ws.onopen = function (event) {
-                ws.send(codeString);
-            };
-            ws.onmessage = function(event) {
-                const data = event.data;
-                var redirectUrl = "http://" + data;
-                console.log("redirect to: ", redirectUrl);
-                window.location.href = redirectUrl;
-            };
+//            const ws = new WebSocket(`${protocol}://${location.host}`);
+//            ws.onopen = function (event) {
+//                ws.send(codeString);
+//            };
+//            ws.onmessage = function(event) {
+//                const data = event.data;
+//                var redirectUrl = "http://" + data;
+//                console.log("redirect to: ", redirectUrl);
+//                window.location.href = redirectUrl;
+//            };
             
             var socket = io();
             socket.on(codeString, function(data) {

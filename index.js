@@ -46,22 +46,22 @@ app.post('/redirect', (req, res) => {
 });
 
 const server = createServer(app);
-const wss = new WebSocket.Server({ server });
-wss.on('connection', function (ws, req) {
-    const clientAddress = req.socket.remoteAddress;
-    logMessage('client new: ' + clientAddress);
-    
-    ws.onmessage = function(event) {
-        const token = event.data;
-        secretTokens.set(ws, token);
-        logMessage('add token: ' + token + ", client: " + clientAddress);
-    };
-    
-    ws.on("close", () => {
-        let success = secretTokens.delete(ws);
-        logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
-    });
-});
+//const wss = new WebSocket.Server({ server });
+//wss.on('connection', function (ws, req) {
+//    const clientAddress = req.socket.remoteAddress;
+//    logMessage('client new: ' + clientAddress);
+//    
+//    ws.onmessage = function(event) {
+//        const token = event.data;
+//        secretTokens.set(ws, token);
+//        logMessage('add token: ' + token + ", client: " + clientAddress);
+//    };
+//    
+//    ws.on("close", () => {
+//        let success = secretTokens.delete(ws);
+//        logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
+//    });
+//});
  
 //const io = require('socket.io')(app);
 //io.on('connection', (socket) => {
