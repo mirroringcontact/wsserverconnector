@@ -173,32 +173,35 @@
     </tr>
   </table>
   <script>
-    const codeString = Math.floor(100000 + Math.random() * 900000).toString();
-    document.getElementById('code').innerHTML = codeString;
-    document.getElementById('qrcode').innerHTML = "";
-    var qrcode = new QRCode('qrcode', {
-      text: codeString,
-      width: 250,
-      height: 250,
-      colorDark: '#000000',
-      colorLight: '#FFFFFF',
-      correctLevel: QRCode.CorrectLevel.H
-    });
- 
-    const protocol = window.location.protocol.includes('https') ? 'wss': 'ws';
-    console.log('connect to: ', protocol, " ", location.host);
-    const ws = new WebSocket(`${protocol}://${location.host}`);
-    ws.onopen = function (event) {  
-        ws.send(codeString);
-    };
-    ws.onmessage = function(event) {
-      const data = event.data; 
-      var redirectUrl = "http://" + data;
-      console.log("redirect to: ", redirectUrl);
-      window.location.href = redirectUrl;
-    };  
-      
+//    const codeString = Math.floor(100000 + Math.random() * 900000).toString();
+//    document.getElementById('code').innerHTML = codeString;
+//    document.getElementById('qrcode').innerHTML = "";
+//    var qrcode = new QRCode('qrcode', {
+//      text: codeString,
+//      width: 250,
+//      height: 250,
+//      colorDark: '#000000',
+//      colorLight: '#FFFFFF',
+//      correctLevel: QRCode.CorrectLevel.H
+//    });
+// 
+//    const protocol = window.location.protocol.includes('https') ? 'wss': 'ws';
+//    console.log('connect to: ', protocol, " ", location.host);
+//    const ws = new WebSocket(`${protocol}://${location.host}`);
+//    ws.onopen = function (event) {  
+//        ws.send(codeString);
+//    };
+//    ws.onmessage = function(event) {
+//      const data = event.data; 
+//      var redirectUrl = "http://" + data;
+//      console.log("redirect to: ", redirectUrl);
+//      window.location.href = redirectUrl;
+//    };  
+      console.log('connect');
   </script>
+  <footer>
+      <script src="index.js"></script>
+  </footer>
 </body>
 
 </html>
