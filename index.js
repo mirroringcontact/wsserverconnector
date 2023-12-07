@@ -3,13 +3,6 @@
 const express = require('express');
 const path = require('path');
 const { createServer } = require('http');
- 
-const io = require('socket.io');
-io.on('connection', (socket) => {
-    console.log('Новое подключение: ' + socket.id);
-});
-
-
 const WebSocket = require('ws');
 const secretTokens = new Map();
 //const unauthorizedClients = new Set();
@@ -52,6 +45,15 @@ app.post('/redirect', (req, res) => {
      
 });
 
+
+const io = require('socket.io')(app);
+//io.on('connection', (socket) => {
+//   console.log('Новое подключение: ' + socket.id);
+//});
+
+io.sockets.on("connection", function(socket) {
+    console.log('Новое подключение: ' + socket.id);
+})
 
 const server = createServer(app);
 const wss = new WebSocket.Server({ server });
