@@ -75,7 +75,7 @@ var io = require('socket.io')(server);
  
 io.sockets.on('connection', socket => {
  const clientAddress = socket.handshake.address;
- logMessage('>>> client new: ' + clientAddress);
+ logMessage('>>> client new: ' + socket);
 
  socket.on('message', token => {
      secretTokens.set(socket.id, token);
