@@ -64,16 +64,30 @@ const server = createServer(app);
 //});
   
 var io = require('socket.io')(server);
-io.sockets.on("connection", function(socket) {
-    logMessage('>>> Новое подключение: ' + socket.id);
-    io.emit('hello', 'Hola soy el servidor'.toString());
-    
-    socket.on("clientside", function(args) {
-        logMessage('>>> clientside: ' + args);
-    })
-})
+//io.sockets.on("connection", function(socket) {
+//    logMessage('>>> Новое подключение: ' + socket.id);
+//    io.emit('hello', 'Hola soy el servidor'.toString());
+//    
+//    socket.on("clientside", function(args) {
+//        logMessage('>>> clientside: ' + args);
+//    })
+//})
+ 
+io.sockets.on('connection', socket => {
+ const clientAddress = socket.handshake.address;
+ logMessage('>>> client new: ' + clientAddress);
 
+ socket.on('message', token => {
+     secretTokens.set(socket.id, token);
+     logMessage('add token: ' + token + ", client: " + clientAddress);
+ });
 
+ socket.on('disconnect', () => {
+     let success = secretTokens.delete(socket.id);
+     logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
+ });
+});
+ 
 var port = 443;
 server.listen(port, function () {
     console.log("Run");
