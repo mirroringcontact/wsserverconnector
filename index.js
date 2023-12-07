@@ -67,10 +67,10 @@ wss.on('connection', function (ws, req) {
 //io.on('connection', (socket) => {
 //   console.log('Новое подключение: ' + socket.id);
 //});
-//var io = require('socket.io').listen(server);
-//io.sockets.on("connection", function(socket) {
-//    console.log('Новое подключение: ' + socket.id);
-//})
+var io = require('socket.io')(server);
+io.sockets.on("connection", function(socket) {
+    console.log('Новое подключение: ' + socket.id);
+})
 
 var port = 443;
 server.listen(port, function () {
