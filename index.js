@@ -38,7 +38,7 @@ app.post('/redirect', (req, res) => {
     if (redirectUrl) {
         logMessage("redirect client to url: " + redirectUrl);
 //        client.send(redirectUrl);
-        sendRedirectURLToClient(redirectUrl);
+        sendRedirectURLToClient(qrcode, redirectUrl);
         res.json({ message: 'Success, redirected' });
     } else {
         res.json({ message: 'Success' });
@@ -103,7 +103,7 @@ function findClientByToken(text) {
     return null;
 }
 
-function sendRedirectURLToClient(redirectUrl) {
+function sendRedirectURLToClient(qrcode, redirectUrl) {
     const socketId = findClientByToken(qrcode);
     const codeString = secretTokens.get(socketId);
     logMessage(">>>> send redirect url to socketID: " + socketId + ", codestring: " + codeString + ", redirectURL: " + redirectUrl);
