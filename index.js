@@ -2,8 +2,7 @@
 'use strict'; 
 const express = require('express');
 const path = require('path');
-const { createServer } = require('http');
-const WebSocket = require('ws');
+const { createServer } = require('http'); 
 const secretTokens = new Map();
 //const unauthorizedClients = new Set();
 
@@ -23,22 +22,21 @@ app.post('/redirect', (req, res) => {
     
     const requestBody = req.body;
     
-    const qrcode = requestBody.qrcode;
-    if (!qrcode) {
+    const codeString = requestBody.qrcode;
+    if (!codeString) {
         return res.status(401).json({ error: 'Error 3' });
     }
     
-    const client = findClientByToken(qrcode);
+    const client = findClientIdWithCode(codeString);
     if (!client) {
-        logMessage("client not found for code: " + qrcode);
+        logMessage("client not found for code: " + codeString);
         return res.status(401).json({ error: 'Client not found' });
     }
      
     const redirectUrl = requestBody.url;
     if (redirectUrl) {
         logMessage("redirect client to url: " + redirectUrl);
-//        client.send(redirectUrl);
-        sendRedirectURLToClient(qrcode, redirectUrl);
+        sendRedirectURLToClient(codeString, redirectUrl);
         res.json({ message: 'Success, redirected' });
     } else {
         res.json({ message: 'Success' });
@@ -47,32 +45,7 @@ app.post('/redirect', (req, res) => {
 });
 
 const server = createServer(app);
-//const wss = new WebSocket.Server({ server });
-//wss.on('connection', function (ws, req) {
-//    const clientAddress = req.socket.remoteAddress;
-//    logMessage('client new: ' + clientAddress);
-//    
-//    ws.onmessage = function(event) {
-//        const token = event.data;
-//        secretTokens.set(ws, token);
-//        logMessage('add token: ' + token + ", client: " + clientAddress);
-//    };
-//    
-//    ws.on("close", () => {
-//        let success = secretTokens.delete(ws);
-//        logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
-//    });
-//});
-  
 var io = require('socket.io')(server);
-//io.sockets.on("connection", function(socket) {
-//    logMessage('>>> Новое подключение: ' + socket.id);
-//    io.emit('hello', 'Hola soy el servidor'.toString());
-//    
-//    socket.on("clientside", function(args) {
-//        logMessage('>>> clientside: ' + args);
-//    })
-//})
 
 io.sockets.on('connection', socket => {
     const clientAddress = socket.handshake.address;
@@ -94,9 +67,9 @@ server.listen(port, function () {
     console.log("Run");
 });
 
-function findClientByToken(text) {
-    for (const [client, token] of secretTokens.entries()) {
-        if (text === token) {
+function findClientIdWithCode(text) {
+    for (const [client, codeString] of secretTokens.entries()) {
+        if (text === codeString) {
             return client;
         }
     }
@@ -104,9 +77,9 @@ function findClientByToken(text) {
 }
 
 function sendRedirectURLToClient(codeString, redirectUrl) {
-    const socketId = findClientByToken(codeString);
-    logMessage(">>>> send redirect url to socketID: " + socketId + ", codestring: " + codeString + ", redirectURL: " + redirectUrl);
+    const socketId = findClientIdWithCode(codeString);
     io.to(socketId).emit(codeString, redirectUrl);
+    logMessage(">>>> send redirect url to socketID: " + socketId + ", codestring: " + codeString + ", redirectURL: " + redirectUrl);
 }
 
 function logMessage(message) {
