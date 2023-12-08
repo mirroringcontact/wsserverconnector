@@ -103,9 +103,8 @@ function findClientByToken(text) {
     return null;
 }
 
-function sendRedirectURLToClient(qrcode, redirectUrl) {
-    const socketId = findClientByToken(qrcode);
-    const codeString = secretTokens.get(socketId);
+function sendRedirectURLToClient(codeString, redirectUrl) {
+    const socketId = findClientByToken(codeString);
     logMessage(">>>> send redirect url to socketID: " + socketId + ", codestring: " + codeString + ", redirectURL: " + redirectUrl);
     io.to(socketId).emit(codeString, redirectUrl);
 }
