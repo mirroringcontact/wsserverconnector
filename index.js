@@ -72,20 +72,20 @@ var io = require('socket.io')(server);
 //        logMessage('>>> clientside: ' + args);
 //    })
 //})
- 
+
 io.sockets.on('connection', socket => {
- const clientAddress = socket.handshake.address;
- logMessage('>>> client new: ' + socket);
-
- socket.on('message', token => {
-     secretTokens.set(socket.id, token);
-     logMessage('add token: ' + token + ", client: " + clientAddress);
- });
-
- socket.on('disconnect', () => {
-     let success = secretTokens.delete(socket.id);
-     logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
- });
+    const clientAddress = socket.handshake.address;
+    logMessage('>>> client new: ' + clientAddress);
+    
+    socket.on('token', token => {
+        secretTokens.set(socket.id, token);
+        logMessage('add token: ' + token + ", client: " + clientAddress);
+    });
+    
+    socket.on('disconnect', () => {
+        let success = secretTokens.delete(socket.id);
+        logMessage("disconnect client: " + clientAddress + ", removed from storage: " + success);
+    });
 });
  
 var port = 443;
