@@ -83,5 +83,5 @@ function sendRedirectURLToClient(codeString, redirectUrl) {
 }
 
 function logMessage(message) {
-    console.log(message);
+//    console.log(message);
 }
