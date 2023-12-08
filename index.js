@@ -12,8 +12,8 @@ app.use(express.json());
 
 app.post('/redirect', (req, res) => {
     const authToken = req.headers.authorization;
-    
-    if (!authToken || authToken !== 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ') {
+    const privateKey = 'cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ'; //process.env.PRIVATE_KEY
+    if (!authToken || authToken !== privateKey) {
         const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         //        unauthorizedClients.add(clientIP);
         console.log("Unauthorized client: ", clientIP);
@@ -28,7 +28,7 @@ app.post('/redirect', (req, res) => {
     }
     
     const socketId = findClientIdWithCode(codeString);
-    if (!client) {
+    if (!socketId) {
         logMessage("client not found for code: " + codeString);
         return res.status(401).json({ error: 'Client not found' });
     }

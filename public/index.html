@@ -190,7 +190,6 @@
             
             socket.on("connect", () => {
                 socket.emit("token", codeString);
-                console.log("on connect: ", socket.id);
             });
             
             socket.on(codeString, function(data) {
