@@ -9,8 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-      "express": "^4.18.2", 
+  "dependencies": { 
       "socket.io": ""
   }
 } 
