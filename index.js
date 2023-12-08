@@ -84,7 +84,7 @@ const server = http.createServer((req, res) => {
                 //                return res.status(401).json({ error: 'unauthorized' });
             }
             
-            const requestBody = req.body;
+//            const requestBody = req.body;
             
             const codeString = requestBody.qrcode;
             if (!codeString) {
