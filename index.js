@@ -52,6 +52,7 @@ const server = http.createServer((req, res) => {
     // Serve static files from the public directory
     if (req.method === 'GET' && req.url.startsWith('/public')) {
         const filePath = path.join(__dirname, req.url);
+        logMessage("filepath server: " + filePath);
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 res.writeHead(404);
