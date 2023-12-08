@@ -50,8 +50,9 @@ const secretTokens = new Map();
 
 const server = http.createServer((req, res) => {
     // Serve static files from the public directory
-    if (req.method === 'GET' && req.url.startsWith('/')) {
-        const filePath = path.join(__dirname, req.url);
+    if (req.method === 'GET' && req.url === '/') {
+           // Отдаем index.html из папки public
+        const indexPath = path.join(__dirname, 'public', 'index.html');
         logMessage("filepath server: " + filePath);
         fs.readFile(filePath, (err, data) => {
             if (err) {
@@ -62,10 +63,7 @@ const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-    }
-    
-    // Handle POST request to /redirect
-    else if (req.method === 'POST' && req.url === '/redirect') {
+    }  else if (req.method === 'POST' && req.url === '/redirect') {
         let body = '';
         req.on('data', chunk => {
             body += chunk.toString(); // convert Buffer to string
