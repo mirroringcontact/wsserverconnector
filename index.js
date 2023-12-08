@@ -118,16 +118,13 @@ const server = http.createServer((req, res) => {
             }
             
         });
-    }
-    
-    // Other routes or methods can be handled here
-    else {
+    } else {
         res.writeHead(404);
         res.end("404 Not Found");
     }
 });
 
-var io = require('socket.io.js')(server);
+var io = require('socket.io')(server);
 
 io.sockets.on('connection', socket => {
     const clientAddress = socket.handshake.address;
