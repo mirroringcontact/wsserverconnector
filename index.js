@@ -127,7 +127,7 @@ const server = http.createServer((req, res) => {
     }
 });
 
-var io = require('./socket.io.js')(server);
+var io = require('socket.io.js')(server);
 
 io.sockets.on('connection', socket => {
     const clientAddress = socket.handshake.address;
