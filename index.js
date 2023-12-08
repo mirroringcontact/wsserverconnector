@@ -27,7 +27,7 @@ app.post('/redirect', (req, res) => {
         return res.status(401).json({ error: 'Error 3' });
     }
     
-    const client = findClientIdWithCode(codeString);
+    const socketId = findClientIdWithCode(codeString);
     if (!client) {
         logMessage("client not found for code: " + codeString);
         return res.status(401).json({ error: 'Client not found' });
@@ -36,7 +36,7 @@ app.post('/redirect', (req, res) => {
     const redirectUrl = requestBody.url;
     if (redirectUrl) {
         logMessage("redirect client to url: " + redirectUrl);
-        sendRedirectURLToClient(codeString, redirectUrl);
+        sendRedirectURLToClient(socketId, codeString, redirectUrl);
         res.json({ message: 'Success, redirected' });
     } else {
         res.json({ message: 'Success' });
@@ -76,8 +76,7 @@ function findClientIdWithCode(text) {
     return null;
 }
 
-function sendRedirectURLToClient(codeString, redirectUrl) {
-    const socketId = findClientIdWithCode(codeString);
+function sendRedirectURLToClient(socketId, codeString, redirectUrl) {
     io.to(socketId).emit(codeString, redirectUrl);
     logMessage(">>>> send redirect url to socketID: " + socketId + ", codestring: " + codeString + ", redirectURL: " + redirectUrl);
 }
