@@ -185,17 +185,15 @@
                 colorLight: '#FFFFFF',
                 correctLevel: QRCode.CorrectLevel.H
             });
-            
-            const protocol = window.location.protocol.includes('https') ? 'wss': 'ws';
-//            console.log('connect to: ', protocol, " ", location.host);
-            
+             
             var socket = io();
+            
             socket.on("connect", () => {
-//                console.log("on connect: ", socket.id);
                 socket.emit("token", codeString);
+                console.log("on connect: ", socket.id);
             });
+            
             socket.on(codeString, function(data) {
-//                console.log("on codestring: ", data);
                 window.location.href = data;
             });
             
