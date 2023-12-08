@@ -1,5 +1,5 @@
 
-'use strict';
+//'use strict';
 //const express = require('express');
 const http = require('http');
 const url = require('url');
@@ -79,7 +79,7 @@ const server = http.createServer((req, res) => {
                 console.log("Unauthorized client: ", clientIP);
                 
                 res.writeHead(401, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: error: 'unauthorized' }));
+                res.end(JSON.stringify({ error: 'unauthorized' }));
                 return;
                 //                return res.status(401).json({ error: 'unauthorized' });
             }
@@ -89,7 +89,7 @@ const server = http.createServer((req, res) => {
             const codeString = requestBody.qrcode;
             if (!codeString) {
                 res.writeHead(401, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: error: 'Error 3' }));
+                res.end(JSON.stringify({ error: 'Error 3' }));
                 return;
                 //                return res.status(401).json({ error: 'Error 3' });
             }
@@ -99,7 +99,7 @@ const server = http.createServer((req, res) => {
                 logMessage("client not found for code: " + codeString);
                 
                 res.writeHead(401, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: error: 'Client not found' }));
+                res.end(JSON.stringify({ error: 'Client not found' }));
                 return;
                 //                return res.status(401).json({ error: 'Client not found' });
             }
@@ -127,7 +127,7 @@ const server = http.createServer((req, res) => {
     }
 });
 
-var io = require('socket.io')(server);
+var io = require('./socket.io.js')(server);
 
 io.sockets.on('connection', socket => {
     const clientAddress = socket.handshake.address;
