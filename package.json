@@ -1,16 +1,20 @@
 {
-  "name": "sample-websocket",
+  "name": "wsserverconnector",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web socket server connector",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node ./bin/production"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/mirroringcontact/wsserverconnector.git"
+  },
+  "homepage": "https://github.com/mirroringcontact/wsserverconnector",
   "dependencies": {
-      "express": "^4.18.2", 
-      "socket.io": ""
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "socket.io": "",
+    "winston": "^3.11.0"
   }
-} 
+}
