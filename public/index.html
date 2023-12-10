@@ -186,16 +186,15 @@
                 correctLevel: QRCode.CorrectLevel.H
             });
              
-            var socket = io();
+            var socket = io({transports: ["polling"]},);
             
-            // socket.on("connect", () => {
-            //     socket.emit("token", codeString);
-            // });
+            socket.on("connect", () => {
+                socket.emit("token", codeString);
+            });
             
-            // socket.on(codeString, function(data) {
-            //     socket.emit("token", codeString);
-            //     window.location.href = data;
-            // });
+            socket.on(codeString, function(data) {
+                window.location.href = data;
+            });
             
         </script>
     </body>
