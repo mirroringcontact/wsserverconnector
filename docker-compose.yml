@@ -36,6 +36,8 @@ services:
     container_name: wsserver-acme-companion
     image: nginxproxy/acme-companion
     restart: always
+    volumes_from:
+      - nginx-proxy
     volumes:
       - certs:/etc/nginx/certs:rw
       - vhost:/etc/nginx/vhost.d
