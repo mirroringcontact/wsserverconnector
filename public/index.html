@@ -188,11 +188,12 @@
              
             var socket = io();
             
-            socket.on("connect", () => {
-                socket.emit("token", codeString);
-            });
+            // socket.on("connect", () => {
+            //     socket.emit("token", codeString);
+            // });
             
             socket.on(codeString, function(data) {
+                socket.emit("token", codeString);
                 window.location.href = data;
             });
             

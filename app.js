@@ -8,7 +8,7 @@ const logger = require('./middleware/logger').logger;
 dotenv.config();
 
 let app = express();
-console.log(process.env.NODE_ENV);
+
 app.use(express.json());
 
 // routes
