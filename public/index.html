@@ -15,7 +15,7 @@
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
             <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
             <script src="qrcode.min.js" type="text/javascript"></script>
-            <script src="socket.io.js"></script>
+            <!-- <script src="socket.io.js"></script> -->
             <style>
                 * {
                     margin: 0;
@@ -186,15 +186,15 @@
                 correctLevel: QRCode.CorrectLevel.H
             });
              
-            var socket = io({transports: ["polling"]},);
+            // var socket = io({transports: ["polling"]},);
             
-            socket.on("connect", () => {
-                socket.emit("token", codeString);
-            });
+            // socket.on("connect", () => {
+            //     socket.emit("token", codeString);
+            // });
             
-            socket.on(codeString, function(data) {
-                window.location.href = data;
-            });
+            // socket.on(codeString, function(data) {
+            //     window.location.href = data;
+            // });
             
         </script>
     </body>
