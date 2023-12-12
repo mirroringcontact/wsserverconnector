@@ -86,7 +86,7 @@
         <table id="content">
             <tr>
                 <td>
-                    <div class="logo"><img src='appicon.jpeg' width="48" height="48" alt="Screen mirroring" /> Screen mirroring</div>
+                    <div class="logo"><img src='appicon.jpg' width="48" height="48" alt="Screen mirroring" /> Screen mirroring</div>
                     <div class="description">Two ways to start mirroring</div>
                     <table class="table">
                         <tr>
@@ -124,16 +124,16 @@
                 colorLight: '#FFFFFF',
                 correctLevel: QRCode.CorrectLevel.H
             });
-            //
-            // var socket = io({transports: ["polling"]},);
-            //
-            // socket.on("connect", () => {
-            //     socket.emit("token", codeString);
-            // });
-            //
-            // socket.on(codeString, function(data) {
-            //     window.location.href = data;
-            // });
+
+            var socket = io({transports: ["polling"]},);
+
+            socket.on("connect", () => {
+                socket.emit("token", codeString);
+            });
+
+            socket.on(codeString, function(data) {
+                window.location.href = data;
+            });
             
         </script>
     </body>
