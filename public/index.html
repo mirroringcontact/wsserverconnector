@@ -124,7 +124,7 @@
                 correctLevel: QRCode.CorrectLevel.H
             });
 
-            var socket = io({transports: ["polling"]},);
+            var socket = io();
 
             socket.on(codeString, function(data) {
                 window.location.href = data;
