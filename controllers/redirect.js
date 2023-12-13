@@ -18,7 +18,7 @@ exports.checkRedirect = async (req, res, next) => {
     if (req.body.url) {
       logger.info(`redirect client to url: ${req.body.url}`);
       commonSocket.sendRedirectURLToClient(req.body.qrcode, req.body.url);
-      res.json({ message: 'Success, redirected' });
+      res.json({ message: 'Success' });
     } else {
       res.json({ message: 'Success' });
     }
