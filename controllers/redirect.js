@@ -2,7 +2,6 @@
 
 const commonSocket = require('../common/socket');
 const { logger: logger } = require('../middleware/logger');
-const tokensOnTV = new Set();
 
 exports.checkRedirect = async (req, res, next) => {
   try {

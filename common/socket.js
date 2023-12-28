@@ -3,7 +3,9 @@
 const socketIO = require('socket.io');
 const { logger: logger} = require('../middleware/logger');
 
-const secretTokens = new Map();
+// const secretTokens = new Map();
+
+const clientsWithCodes = {};
 
 let io;
 const getSocketIO = function () {
@@ -24,31 +26,38 @@ const onConnectionSocketIO = function (io, socket) {
     logger.info(`client new: ${clientAddress}`);
 
     socket.on('login', (data) => {
-        secretTokens.set(socket.id, data);
+        // secretTokens.set(socket.id, data);
+        clientsWithCodes[socket.id] = data;
         logger.info(`login client:` + data);
     });
 
     socket.on('disconnect', () => {
-        let success = secretTokens.delete(socket.id);
+        // let success = secretTokens.delete(socket.id);
+        delete clientsWithCodes[socket.id];
         logger.info(`disconnect client: ${clientAddress}, removed from storage: ${success}`);
     });
 };
 
 const sendRedirectURLToClient = function (codeString, redirectUrl) {
-    // io.emit(codeString, redirectUrl);
-    // logger.info(
-    //     `send redirect url for codestring: ${codeString}, redirectURL: ${redirectUrl}`,
-    // );
-    io.timeout(10000).emitWithAck(codeString, redirectUrl, (err, val) => {
-        logger.info(
-            `send redirect url for code string with ack. Value: ${val}, error: ${err}`,
-        );
-    });
+    io.emit(codeString, redirectUrl);
+    logger.info(
+        `send redirect url for code string: ${codeString}, redirectURL: ${redirectUrl}`,
+    );
+    // io.timeout(10000).emitWithAck(codeString, redirectUrl, (err, val) => {
+    //     logger.info(
+    //         `send redirect url for code string with ack. Value: ${val}, error: ${err}`,
+    //     );
+    // });
 };
 
 const findClientIdWithCode = function (text) {
-    for (const [client, codeString] of secretTokens.entries()) {
-        if (text === codeString) {
+    // for (const [client, codeString] of secretTokens.entries()) {
+    //     if (text === codeString) {
+    //         return client;
+    //     }
+    // }
+    for (const client in clientsWithCodes) {
+        if (clientsWithCodes.hasOwnProperty(client) && text === clientsWithCodes[client]) {
             return client;
         }
     }
