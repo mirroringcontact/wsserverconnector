@@ -2,6 +2,7 @@
 
 const commonSocket = require('../common/socket');
 const { logger: logger } = require('../middleware/logger');
+const tokensOnTV = new Set();
 
 exports.checkRedirect = async (req, res, next) => {
   try {
@@ -20,7 +21,12 @@ exports.checkRedirect = async (req, res, next) => {
       commonSocket.sendRedirectURLToClient(req.body.qrcode, req.body.url);
       res.json({ message: 'Success' });
     } else {
-      res.json({ message: 'Success' });
+      let isClientExist = commonSocket.checkClient(req.body.qrcode);
+      if (isClientExist) {
+        res.json({ message: 'Success' });
+      } else {
+        return res.status(401).json({ error: 'Client not found' });
+      }
     }
   } catch (err) {
     console.log(err);
