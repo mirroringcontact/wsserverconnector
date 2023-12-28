@@ -3,9 +3,9 @@
 const socketIO = require('socket.io');
 const { logger: logger} = require('../middleware/logger');
 
-// const secretTokens = new Map();
+const secretTokens = new Map();
 
-const clientsWithCodes = {};
+// const clientsWithCodes = {};
 
 let io;
 const getSocketIO = function () {
@@ -26,14 +26,14 @@ const onConnectionSocketIO = function (io, socket) {
     logger.info(`client new: ${clientAddress}`);
 
     socket.on('login', (data) => {
-        // secretTokens.set(socket.id, data);
-        clientsWithCodes[socket.id] = data;
+        secretTokens.set(socket.id, data);
+        // clientsWithCodes[socket.id] = data;
         logger.info(`login client:` + data);
     });
 
     socket.on('disconnect', () => {
-        // let success = secretTokens.delete(socket.id);
-        delete clientsWithCodes[socket.id];
+        let success = secretTokens.delete(socket.id);
+        // delete clientsWithCodes[socket.id];
         logger.info(`disconnect client: ${clientAddress}, removed from storage: ${success}`);
     });
 };
@@ -51,16 +51,16 @@ const sendRedirectURLToClient = function (codeString, redirectUrl) {
 };
 
 const findClientIdWithCode = function (text) {
-    // for (const [client, codeString] of secretTokens.entries()) {
-    //     if (text === codeString) {
-    //         return client;
-    //     }
-    // }
-    for (const client in clientsWithCodes) {
-        if (clientsWithCodes.hasOwnProperty(client) && text === clientsWithCodes[client]) {
+    for (const [client, codeString] of secretTokens.entries()) {
+        if (text === codeString) {
             return client;
         }
     }
+    // for (const client in clientsWithCodes) {
+    //     if (clientsWithCodes.hasOwnProperty(client) && text === clientsWithCodes[client]) {
+    //         return client;
+    //     }
+    // }
     return null;
 };
 
