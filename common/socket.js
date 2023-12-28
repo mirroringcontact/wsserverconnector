@@ -5,8 +5,6 @@ const { logger: logger} = require('../middleware/logger');
 
 const secretTokens = new Map();
 
-// const clientsWithCodes = {};
-
 let io;
 const getSocketIO = function () {
     return io;
@@ -27,13 +25,11 @@ const onConnectionSocketIO = function (io, socket) {
 
     socket.on('login', (data) => {
         secretTokens.set(socket.id, data);
-        // clientsWithCodes[socket.id] = data;
         logger.info(`login client:` + data);
     });
 
     socket.on('disconnect', () => {
         let success = secretTokens.delete(socket.id);
-        // delete clientsWithCodes[socket.id];
         logger.info(`disconnect client: ${clientAddress}, removed from storage: ${success}`);
     });
 };
@@ -56,11 +52,6 @@ const findClientIdWithCode = function (text) {
             return client;
         }
     }
-    // for (const client in clientsWithCodes) {
-    //     if (clientsWithCodes.hasOwnProperty(client) && text === clientsWithCodes[client]) {
-    //         return client;
-    //     }
-    // }
     return null;
 };
 
