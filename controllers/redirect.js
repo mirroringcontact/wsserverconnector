@@ -16,17 +16,18 @@ exports.checkRedirect = async (req, res, next) => {
       return res.status(401).json({ error: 'Error 3' });
     }
 
+    const socketId = commonSocket.findClientIdWithCode(req.body.qrcode);
+    if (!socketId) {
+      logger.info(`client not found for code: ${req.body.qrcode}`);
+      return res.status(401).json({ error: 'Client not found' });
+    }
+
     if (req.body.url) {
       logger.info(`redirect client to url: ${req.body.url}`);
       commonSocket.sendRedirectURLToClient(req.body.qrcode, req.body.url);
       res.json({ message: 'Success' });
     } else {
-      let isClientExist = commonSocket.checkClient(req.body.qrcode);
-      if (isClientExist) {
         res.json({ message: 'Success' });
-      } else {
-        return res.status(401).json({ error: 'Client not found' });
-      }
     }
   } catch (err) {
     console.log(err);
