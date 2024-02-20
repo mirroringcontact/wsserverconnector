@@ -114,7 +114,7 @@
             const codeString = Math.floor(100000 + Math.random() * 900000).toString();
             document.getElementById('code').innerHTML = codeString;
             document.getElementById('qrcode').innerHTML = "";
-            /*document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function() {
                 let qrcode = new QRCode('qrcode', {
                     text: codeString,
                     width: 250,
@@ -124,12 +124,12 @@
                     correctLevel: QRCode.CorrectLevel.H
                 });
 
-                let socket = io();
+                /*let socket = io();
                 socket.emit('login', codeString);
                 socket.on(codeString, function(data) {
                     window.location.href = data;
-                });
-            });*/
+                });*/
+            });
         </script>
     </body>
 
