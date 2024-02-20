@@ -115,14 +115,14 @@
             document.getElementById('code').innerHTML = codeString;
             document.getElementById('qrcode').innerHTML = "";
             document.addEventListener('DOMContentLoaded', function() {
-                let qrcode = new QRCode('qrcode', {
+                /*let qrcode = new QRCode('qrcode', {
                     text: codeString,
                     width: 250,
                     height: 250,
                     colorDark: '#000000',
                     colorLight: '#FFFFFF',
                     correctLevel: QRCode.CorrectLevel.H
-                });
+                });*/
 
                 let socket = io();
                 socket.emit('login', codeString);
